@@ -1,6 +1,6 @@
 # SmartphoneManager
 
-![제목](https://github.com/CY-728/SmartphoneManager/blob/main/제목.png)
+<img width="972" alt="제목" src="https://github.com/user-attachments/assets/a5b5f94a-c98d-456d-a768-ceacd1cf3352" />
 2024학년도 2학기 소프트웨어융합캡스톤디자인 수업에서 발표한 <나만의 스마트폰 중독 방지 서비스-스마트폰 매니저>입니다.
 
 
