@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@android:color/white" /> <!-- 삼각형 색상 -->
+    <path
+        android:fillColor="@android:color/black"
+        android:pathData="M 0,0 L 16,0 L 8,16 Z" /> <!-- 삼각형 경로 -->
+</shape>

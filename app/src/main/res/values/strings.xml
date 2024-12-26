@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="total_usage_time">오늘의 총 사용 시간: %1$d시간 %2$d분 %3$d초</string>
+</resources>
