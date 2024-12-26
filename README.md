@@ -10,5 +10,5 @@
 본 프로젝트는 사용자의 자율적인 스마트폰 사용 제어를 돕습니다. 귀여운 캐릭터의 텍스트 메시지를 받아보며 스마트폰 중독을 예방해보아요!
 
 ![002](https://github.com/user-attachments/assets/982e3137-1336-467a-a671-d65269860841)
-
+![003](https://github.com/user-attachments/assets/4157da32-d366-40d8-bb59-6fbd0fc413be)
 
