@@ -34,35 +34,35 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        // 권한 요청
+
         requestPermissions()
 
         setContent {
             MyApplicationTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    // 앱 시작 화면 텍스트 추가
+
                     StartScreen(modifier = Modifier.padding(innerPadding))
                 }
             }
         }
 
-        // 권한 요청 후 일정 시간 후 MainScreenActivity로 이동
+
         Handler(Looper.getMainLooper()).postDelayed({
             val intent = Intent(this, MainScreenActivity::class.java)
             startActivity(intent)
-            finish()  // 현재 Activity 종료
-        }, 5000) // 5초 후 MainScreenActivity로 이동
+            finish()
+        }, 5000)
     }
 
-    // "다른 앱 위에 그리기"와 "알림" 권한 요청
+
     private fun requestPermissions() {
-        // "다른 앱 위에 그리기" 권한 확인
+
         if (!Settings.canDrawOverlays(this)) {
             val intent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION)
             startActivityForResult(intent, 123)
         }
 
-        // 알림 권한 요청 (Android 13 이상에서만)
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.POST_NOTIFICATIONS), 1)
@@ -70,7 +70,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    // 권한 요청 결과 처리
+
     @Deprecated("Deprecated in Java")
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)

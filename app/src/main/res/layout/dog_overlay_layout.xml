@@ -7,13 +7,13 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <!-- 총 사용 시간 텍스트 + 말풍선 -->
+
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp">
 
-        <!-- 말풍선 본체 -->
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -33,7 +33,7 @@
                 android:gravity="center"/>
         </LinearLayout>
 
-        <!-- 말풍선 꼬리 -->
+
         <View
             android:layout_width="20dp"
             android:layout_height="20dp"
@@ -44,13 +44,13 @@
             android:rotation="45"/>
     </FrameLayout>
 
-    <!-- 화면 켜짐 횟수 텍스트 + 말풍선 -->
+
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp">
 
-        <!-- 말풍선 본체 -->
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -68,7 +68,7 @@
                 android:textSize="18sp" />
         </LinearLayout>
 
-        <!-- 말풍선 꼬리 -->
+
         <View
             android:layout_width="20dp"
             android:layout_height="20dp"
@@ -79,21 +79,21 @@
             android:rotation="45"/>
     </FrameLayout>
 
-    <!-- 강아지 이미지 -->
+
     <ImageView
         android:id="@+id/dog_image_view"
         android:layout_width="270dp"
         android:layout_height="304dp"
         android:src="@drawable/ic_dog1" />
 
-    <!-- 말풍선 레이아웃 -->
+
     <FrameLayout
         android:id="@+id/alert_message_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp">
 
-        <!-- 말풍선 본체 -->
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -102,7 +102,7 @@
             android:padding="16dp"
             android:gravity="center_vertical|center_horizontal">
 
-            <!-- 말풍선 텍스트 -->
+
             <TextView
                 android:id="@+id/alert_message_text"
                 android:layout_width="wrap_content"
@@ -114,7 +114,7 @@
                 android:background="@android:color/transparent" />
         </LinearLayout>
 
-        <!-- 말풍선 꼬리 -->
+
         <View
             android:layout_width="20dp"
             android:layout_height="20dp"
@@ -125,7 +125,7 @@
             android:rotation="45"/>
     </FrameLayout>
 
-    <!-- 닫기 버튼 -->
+
     <Button
         android:id="@+id/close_button"
         android:layout_width="wrap_content"

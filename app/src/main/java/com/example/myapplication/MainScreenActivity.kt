@@ -54,10 +54,10 @@ class MainScreenActivity : ComponentActivity() {
     private val handler = Handler(Looper.getMainLooper())
     private var totalUsageTimeTextView: TextView? = null
     private var screenOnCountTextView: TextView? = null
-    private var alertMessageTextView: TextView? = null // 알림 메시지를 표시할 텍스트 뷰 추가
-    private var totalSeconds: Long = 0 // 총 사용 시간 (초 단위)
-    private var screenOnCount: Int = 0 // 화면 켜짐 횟수
-    private var overlayView: View? = null // 오버레이 뷰를 변수로 저장
+    private var alertMessageTextView: TextView? = null
+    private var totalSeconds: Long = 0
+    private var screenOnCount: Int = 0
+    private var overlayView: View? = null
     private var isCatOverlay: Boolean = false
     private var isDogOverlay: Boolean = false
     private var isNotificationSent1 = false
@@ -68,17 +68,17 @@ class MainScreenActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // 잠금 화면에서도 이 Activity가 나타날 수 있도록 설정
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
             setShowWhenLocked(true)
         } else {
             window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED)
         }
 
-        // BroadcastReceiver를 등록하여 화면 이벤트를 감지
+
         registerScreenReceiver()
 
-        // 사용 기록 접근 권한 요청
+
         if (!checkUsageStatsPermission()) {
             requestUsageStatsPermission()
         }
@@ -92,10 +92,10 @@ class MainScreenActivity : ComponentActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        // BroadcastReceiver 해제
+
         unregisterReceiver(screenReceiver)
 
-        // 오버레이 뷰 제거
+
         overlayView?.let {
             val windowManager = getSystemService(Context.WINDOW_SERVICE) as WindowManager
             windowManager.removeView(it)
@@ -108,8 +108,8 @@ class MainScreenActivity : ComponentActivity() {
                 if (intent?.action == Intent.ACTION_SCREEN_ON) {
                     showCatOverlay()
                     showDogOverlay()
-                    screenOnCount++  // 화면 켜짐 횟수 증가
-                    updateScreenOnCount()  // 화면 켜짐 횟수 갱신
+                    screenOnCount++
+                    updateScreenOnCount()
                     isNotificationSent1 = false
                     isNotificationSent2 = false
                 }
@@ -137,30 +137,30 @@ class MainScreenActivity : ComponentActivity() {
             layoutParams.flags = layoutParams.flags or WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON
         }
 
-        // 오버레이 뷰를 새로 생성하고 변수에 저장
+
         overlayView = LayoutInflater.from(this).inflate(R.layout.cat_overlay_layout, null)
 
         totalUsageTimeTextView = overlayView?.findViewById(R.id.total_usage_time_text)
         screenOnCountTextView = overlayView?.findViewById(R.id.screen_on_count_text)
-        alertMessageTextView = overlayView?.findViewById(R.id.alert_message_text) // 알림 메시지 텍스트 뷰 참조 추가
+        alertMessageTextView = overlayView?.findViewById(R.id.alert_message_text)
         updateUsageTime()
 
         val closeButton: Button = overlayView?.findViewById(R.id.close_button) ?: return
         closeButton.visibility = View.INVISIBLE
 
         Handler(Looper.getMainLooper()).postDelayed({
-            closeButton.visibility = View.VISIBLE  // 버튼을 보이도록 설정
-            closeButton.alpha = 0f  // 처음에는 투명하게 설정 (alpha=0)
+            closeButton.visibility = View.VISIBLE
+            closeButton.alpha = 0f
 
-            // alpha 애니메이션 추가 (서서히 나타나게)
+
             val animator = ObjectAnimator.ofFloat(closeButton, "alpha", 0f, 1f)
-            animator.duration = 3000 // 3초 동안 애니메이션 진행
+            animator.duration = 3000
             animator.start()
-        }, 5000) // 5초 후에 애니메이션 시작
+        }, 5000)
 
 
         closeButton.setOnClickListener {
-            //오버레이 제거
+
             val windowManager = getSystemService(WINDOW_SERVICE) as WindowManager
             windowManager.removeView(overlayView)
             overlayView = null
@@ -179,19 +179,19 @@ class MainScreenActivity : ComponentActivity() {
             override fun run() {
                 totalSeconds++
                 val formattedTime = formatTime(totalSeconds)
-                //totalUsageTimeTextView?.text = "오늘의 총 사용 시간: $formattedTime"
+
 
 
                 if (totalSeconds >= 60 && totalSeconds < 70 && !isNotificationSent1) {
                     sendNotification(this@MainScreenActivity, "너무 많이 쓴거 아니야?")
-                    isNotificationSent1 = true // 알림을 보냈으므로 상태를 변경
+                    isNotificationSent1 = true
                 } else if (totalSeconds >= 70 && totalSeconds<80 && !isNotificationSent2) {
                     sendNotification(this@MainScreenActivity, "조금만 참아보자!")
-                    isNotificationSent2 = true // 알림을 보냈으므로 상태를 변경
+                    isNotificationSent2 = true
                 }
 
 
-                // 알림 메시지 갱신
+
                 if(isCatOverlay){
                     showCatAlertMessage()
                     totalUsageTimeTextView?.text = "오늘의 총 사용 시간은 \n $formattedTime 다냥!"
@@ -225,36 +225,36 @@ class MainScreenActivity : ComponentActivity() {
         val backgroundDrawableResId: Int
 
         when {
-            totalSeconds >= 60 -> { // 2시간 이상
+            totalSeconds >= 60 -> {
                 alertMessage = "...더 쓸거라고? 너무 심하다냥!"
                 catImageResId = R.drawable.ic_cat4
-                backgroundDrawableResId = R.drawable.angryBackground  // 분홍색 배경
+                backgroundDrawableResId = R.drawable.angryBackground
             }
-            totalSeconds >= 30 -> { // 1시간 30분 이상
+            totalSeconds >= 30 -> {
                 alertMessage = "너무 많이 쓰는거 아니냥? 슬프다냥ㅜㅜ"
                 catImageResId = R.drawable.ic_cat6
-                backgroundDrawableResId = R.drawable.sadBackground  // 파란색 배경
+                backgroundDrawableResId = R.drawable.sadBackground
             }
-            totalSeconds >= 10 -> { // 1시간 이상
+            totalSeconds >= 10 -> {
                 alertMessage = "너 오늘 ${formatTime(totalSeconds)} 썼다냥. 주의하라냥!"
                 catImageResId = R.drawable.ic_cat7
-                backgroundDrawableResId = R.drawable.warningBackground  // 노란색 배경
+                backgroundDrawableResId = R.drawable.warningBackground
             }
             else -> {
                 alertMessage = "현재 총 사용 시간은 ${formatTime(totalSeconds)}라냥!"
                 catImageResId = R.drawable.ic_cat5
-                backgroundDrawableResId = R.drawable.normalBackground  // 흰색 배경
+                backgroundDrawableResId = R.drawable.normalBackground
             }
         }
 
-        // 알림 메시지가 있을 때만 화면에 표시
+
         alertMessageTextView?.text = alertMessage
 
-        // 이미지 업데이트
+
         val catImageView = overlayView?.findViewById<ImageView>(R.id.cat_image_view)
         catImageView?.setImageResource(catImageResId)
 
-        // 배경 색상 업데이트
+
         val backgroundView = overlayView?.findViewById<LinearLayout>(R.id.overlay_background)
         backgroundView?.setBackgroundResource(backgroundDrawableResId)
     }
@@ -275,7 +275,7 @@ class MainScreenActivity : ComponentActivity() {
         startActivity(intent)
     }
 
-    // 강아지 화면 오버레이 구현
+
     @SuppressLint("InflateParams", "MissingInflatedId")
     fun showDogOverlay() {
         if (isCatOverlay || isDogOverlay) return
@@ -288,12 +288,12 @@ class MainScreenActivity : ComponentActivity() {
             android.graphics.PixelFormat.TRANSLUCENT
         )
 
-        // 오버레이 뷰를 새로 생성하고 변수에 저장
+
         overlayView = LayoutInflater.from(this).inflate(R.layout.dog_overlay_layout, null)
 
         totalUsageTimeTextView = overlayView?.findViewById(R.id.total_usage_time_text)
         screenOnCountTextView = overlayView?.findViewById(R.id.screen_on_count_text)
-        alertMessageTextView = overlayView?.findViewById(R.id.alert_message_text) // 알림 메시지 텍스트 뷰 참조 추가
+        alertMessageTextView = overlayView?.findViewById(R.id.alert_message_text)
         updateUsageTime()
 
         val closeButton: Button = overlayView?.findViewById(R.id.close_button) ?: return
@@ -315,13 +315,13 @@ class MainScreenActivity : ComponentActivity() {
         val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val channelId = "usage_alert_channel"
 
-        // Notification Channel 설정 (Android 8.0 이상)
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(channelId, "Usage Alerts", NotificationManager.IMPORTANCE_HIGH)
             notificationManager.createNotificationChannel(channel)
         }
 
-        // 알림 설정
+
         val notification: Notification = NotificationCompat.Builder(context, channelId)
             .setContentTitle("나만의 스마트폰 매니저")
             .setContentText(message)
@@ -329,7 +329,7 @@ class MainScreenActivity : ComponentActivity() {
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .build()
 
-        // 알림 보내기
+
         notificationManager.notify(1, notification)
     }
 
@@ -340,17 +340,17 @@ class MainScreenActivity : ComponentActivity() {
         val backgroundDrawableResId: Int
 
         when {
-            totalSeconds >= 60 -> { // 2시간 이상
+            totalSeconds >= 60 -> {
                 alertMessage="더는 못참아! 당장 그만 두지 못해 멍!"
                 dogImageResId=R.drawable.ic_dog_angry3
                 backgroundDrawableResId = R.drawable.angryBackground
             }
-            totalSeconds >= 30 -> { // 1시간 30분 이상
+            totalSeconds >= 30 -> {
                 alertMessage="이게 무슨 일이냐 멍...? 날 실망 시키는 거냐?"
                 dogImageResId=R.drawable.ic_dog_angry
                 backgroundDrawableResId = R.drawable.sadBackground
             }
-            totalSeconds >= 10 -> { // 1시간 이상
+            totalSeconds >= 10 -> {
                 alertMessage="잠깐만! ${formatTime(totalSeconds)} 썼다멍! 참아 보자멍!"
                 dogImageResId=R.drawable.ic_dog_angry2
                 backgroundDrawableResId = R.drawable.warningBackground
@@ -362,10 +362,10 @@ class MainScreenActivity : ComponentActivity() {
             }
         }
 
-        // 알림 메시지가 있을 때만 화면에 표시
+
         alertMessageTextView?.text = alertMessage
 
-        // 이미지 업데이트
+
         val dogImageView = overlayView?.findViewById<ImageView>(R.id.dog_image_view)
         dogImageView?.setImageResource(dogImageResId)
 
@@ -390,55 +390,55 @@ fun MainScreen() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        // "함께할 친구를 선택해주세요!" 텍스트 추가
+
         Text(
             text = "함께할 친구를 선택해주세요!",
             style = MaterialTheme.typography.headlineLarge,
-            modifier = Modifier.padding(bottom = 32.dp), // 텍스트와 이미지 간의 간격 설정
-            color = MaterialTheme.colorScheme.primary // 텍스트 색상 설정 (필요 시)
+            modifier = Modifier.padding(bottom = 32.dp),
+            color = MaterialTheme.colorScheme.primary
         )
 
         Text(
             text = "사진을 눌러 친구들의 성격을 알아보세요.",
             style = MaterialTheme.typography.headlineSmall,
-            modifier = Modifier.padding(bottom = 32.dp), // 텍스트와 이미지 간의 간격 설정
-            color = MaterialTheme.colorScheme.primary // 텍스트 색상 설정 (필요 시)
+            modifier = Modifier.padding(bottom = 32.dp),
+            color = MaterialTheme.colorScheme.primary
         )
 
-        // 고양이와 바둑이 이미지 나란히 배치
+
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 32.dp), // 이미지 사이 간격
+                .padding(bottom = 32.dp),
             horizontalArrangement = Arrangement.Center
         ) {
             // 고양이 이미지
             Image(
-                painter = painterResource(id = R.drawable.ic_cat5), // 고양이 이미지 리소스
+                painter = painterResource(id = R.drawable.ic_cat5),
                 contentDescription = "치즈냥",
                 modifier = Modifier
-                    .size(200.dp) // 이미지 크기 조정
-                    .padding(end = 16.dp) // 이미지 사이 간격
+                    .size(200.dp)
+                    .padding(end = 16.dp)
                     .clickable { showCatOverlay=true }
             )
 
-            // 바둑이 이미지
+
             Image(
-                painter = painterResource(id = R.drawable.ic_dog1), // 바둑이 이미지 리소스
+                painter = painterResource(id = R.drawable.ic_dog1),
                 contentDescription = "바둑이",
                 modifier = Modifier
-                    .size(200.dp) // 이미지 크기 조정
+                    .size(200.dp)
                     .clickable { showDogOverlay=true }
             )
         }
 
 
-        // 버튼을 나란히 배치
+
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center
         ) {
-            // 고양이 버튼
+
             Button(
                 onClick = {
                     if (context is MainScreenActivity) {
@@ -446,13 +446,13 @@ fun MainScreen() {
                     }
                 },
                 modifier = Modifier
-                    .padding(end = 16.dp) // 버튼 사이 간격
-                    .weight(1f) // 버튼을 같은 크기로 배치
+                    .padding(end = 16.dp)
+                    .weight(1f)
             ) {
                 Text(text = "귀여운 치즈냥")
             }
 
-            // 바둑이 버튼
+
             Button(
                 onClick = {
                     if (context is MainScreenActivity) {
@@ -460,8 +460,8 @@ fun MainScreen() {
                     }
                 },
                 modifier = Modifier
-                    .padding(start = 16.dp) // 버튼 사이 간격
-                    .weight(1f) // 버튼을 같은 크기로 배치
+                    .padding(start = 16.dp)
+                    .weight(1f)
             ) {
                 Text(text = "나이스한 바둑이")
             }
@@ -492,7 +492,7 @@ fun MainScreen() {
         )
     }
 
-    // 강아지 성격 오버레이
+
     if (showDogOverlay) {
         OverlayDialog(
             title = "바둑이의 성격",
@@ -554,7 +554,7 @@ fun IntermediateScreen(friendName: String, onDismiss: () -> Unit, onProceed: () 
 
 @Composable
 fun OverlayDialog(title: String, description: String, onDismiss: () -> Unit) {
-    // Dialog로 오버레이 화면 구현
+
     Dialog(onDismissRequest = onDismiss) {
         Box(
             modifier = Modifier
@@ -572,7 +572,7 @@ fun OverlayDialog(title: String, description: String, onDismiss: () -> Unit) {
                         shape = MaterialTheme.shapes.medium
                     )
                     .padding(16.dp)
-                    .fillMaxWidth(0.8f), // 2/3 크기
+                    .fillMaxWidth(0.8f),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
