@@ -30,5 +30,13 @@
 해당 서비스를 업그레이드하여 2025학년도 1학기 졸업 논문으로 제출했으며, 2025 한국컴퓨터종합학술대회(KCC2025) 학부생 논문으로 게재되었고 포스터 세션 발표를 진행했습니다.
 
 ![Image](https://github.com/user-attachments/assets/912fb2b5-4e03-46f1-8aa2-3cc2ba38c552)
+![Image](https://github.com/user-attachments/assets/a15ccc20-c311-46a4-9253-f4dee00678aa)
+![Image](https://github.com/user-attachments/assets/17435f84-f07e-4fef-82d7-a76089b8987b)
+
++ OpenAI의 DALL·E 2를 활용하여 사용자가 원하는 사진을 선택하면 사진의 표정이 기쁨-슬픔-화남의 세 가지 표정 사진으로 변환
++ 변환된 사진이 잠금 화면에 적용되며, 사용 시간이 늘어남에 따라 순차적으로 표정이 변화되어 스마트폰 사용 제어를 촉구함
+
+
+
 
 
