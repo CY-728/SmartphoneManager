@@ -33,7 +33,7 @@
 ![Image](https://github.com/user-attachments/assets/a15ccc20-c311-46a4-9253-f4dee00678aa)
 ![Image](https://github.com/user-attachments/assets/17435f84-f07e-4fef-82d7-a76089b8987b)
 
-+ OpenAI의 DALL·E 2를 활용함
++ OpenAI의 DALL·E 2의 이미지 생성 기능을 이용한 표정 변환 서비스
 + 사용자가 원하는 사진을 선택하면 사진의 표정이 기쁨-슬픔-화남의 세 가지 표정 사진으로 변환됨
 + 변환된 사진이 잠금 화면에 적용되며, 사용 시간이 늘어남에 따라 순차적으로 표정이 변화되어 스마트폰 사용 제어를 촉구함
 
